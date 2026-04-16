@@ -5,7 +5,7 @@
 :project:       demo-kafka
 :key:           {owner}_{project}
 :repo:          https://github.com/{owner}/{project}
-:documentation: https://{owner}.github.io/{project}
+:documentation: https://{owner}.github.io/{project}?theme=github
 :cicd:          {repo}/actions/workflows/cicd.yaml
 :linkedin:      https://www.linkedin.com/in/rdlopes/
 :badges:        https://img.shields.io/badge
