@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "AccountEvent",
+  "namespace": "io.github.rdlopes.kafka.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}

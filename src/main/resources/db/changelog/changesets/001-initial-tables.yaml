@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/changesets/001-initial-tables.yaml
+  - changeSet:
+      id: 001-create-users-table
+      author: rdlopes
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: users
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: timestamp
+                  type: bigint
+
+  - changeSet:
+      id: 002-create-accounts-table
+      author: rdlopes
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: accounts
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    foreignKeyName: fk_accounts_users
+                    references: users(id)
+              - column:
+                  name: timestamp
+                  type: bigint

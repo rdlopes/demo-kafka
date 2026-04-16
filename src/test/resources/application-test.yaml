@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+  kafka:
+    consumer:
+      properties:
+        schema.registry.url: mock://test
+    producer:
+      properties:
+        schema.registry.url: mock://test
+  docker:
+    compose:
+      enabled: false
+
+logging:
+  level:
+    io.github.rdlopes: trace
+
