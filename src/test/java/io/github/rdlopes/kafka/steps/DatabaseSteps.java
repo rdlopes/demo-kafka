@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+@SuppressWarnings("NonAsciiCharacters")
 public class DatabaseSteps {
 
   private final UserRepository userRepository;
