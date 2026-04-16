@@ -22,6 +22,7 @@
     <jackson-core.version>3.1.1</jackson-core.version>
     <log4j-core.version>2.25.4</log4j-core.version>
     <springdoc-openapi-starter-webmvc-ui.version>2.8.5</springdoc-openapi-starter-webmvc-ui.version>
+    <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
   </properties>
 
   <repositories>
@@ -199,6 +200,28 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>@.mvn/jvm.config</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.cukedoctor</groupId>
+        <artifactId>cukedoctor-maven-plugin</artifactId>
+        <version>${cukedoctor-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <documentTitle>Living Documentation</documentTitle>
+          <outputFileName>index</outputFileName>
+          <outputDir>cukedoctor</outputDir>
+          <featuresDir>target/cucumber</featuresDir>
+          <format>all</format>
+          <toc>left</toc>
+          <numbered>true</numbered>
         </configuration>
       </plugin>
     </plugins>

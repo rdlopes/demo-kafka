@@ -1,4 +1,4 @@
-= {project}
+= {documentation}[{project}]
 :author:        Rui Lopes
 :owner:         rdlopes
 :email:         mailto:rui.lopes@gmail.com
@@ -11,6 +11,7 @@
 :badges:        https://img.shields.io/badge
 
 image:{cicd}/badge.svg[link={cicd},window=_blank]
+image:https://img.shields.io/badge/Documentation-online-informational?style=flat&logo=asciidoctor[link={documentation},window=_blank]
 
 Une application Spring Boot conçue pour recevoir des événements sous forme d'objets Avro via Kafka.
 
@@ -24,7 +25,7 @@ Il utilise les technologies suivantes :
 * **Apache Avro** pour la définition des schémas d'événements.
 * **Confluent Schema Registry** pour la gestion des schémas.
 * **Liquibase** pour la gestion de la base de données.
-* **Cucumber** pour les tests d'acceptation.
+* **Cucumber** pour les tests d'acceptation et la documentation vivante.
 
 [NOTE]
 ====
@@ -43,7 +44,7 @@ Les répertoires qui démarrent par un point contiennent des configurations addi
 
 |Génération du code Avro |`./mvnw generate-sources`
 |Construction |`./mvnw package`
-|Vérification |`./mvnw verify`
+|Documentation |`./mvnw verify`
 |Démarrage |`./mvnw spring-boot:run`
 |===
 
