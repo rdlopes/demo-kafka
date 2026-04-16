@@ -1,0 +1,53 @@
+= {project}
+:author:        Rui Lopes
+:owner:         rdlopes
+:email:         mailto:rui.lopes@gmail.com
+:project:       demo-kafka
+:key:           {owner}_{project}
+:repo:          https://github.com/{owner}/{project}
+:documentation: https://{owner}.github.io/{project}
+:cicd:          {repo}/actions/workflows/cicd.yaml
+:linkedin:      https://www.linkedin.com/in/rdlopes/
+:badges:        https://img.shields.io/badge
+
+image:{cicd}/badge.svg[link={cicd},window=_blank]
+
+Une application Spring Boot conçue pour recevoir des événements sous forme d'objets Avro via Kafka.
+
+== Structure
+
+Ce projet est construit comme un projet Maven basé sur le JDK 25 et Spring Boot 4.
+
+Il utilise les technologies suivantes :
+
+* **Spring for Apache Kafka** pour l'intégration avec Kafka.
+* **Apache Avro** pour la définition des schémas d'événements.
+* **Confluent Schema Registry** pour la gestion des schémas.
+* **Liquibase** pour la gestion de la base de données.
+* **Cucumber** pour les tests d'acceptation.
+
+[NOTE]
+====
+Les répertoires qui démarrent par un point contiennent des configurations additionnelles :
+
+* `.editorconfig` - configure les standards de formatage
+* `.github` - configure le CICD
+* `.idea` - configure IntelliJ
+* `.mvn` - configure la toolchain Maven
+====
+
+== Cycle De Vie
+
+|===
+|Action |Commande
+
+|Génération du code Avro |`./mvnw generate-sources`
+|Construction |`./mvnw package`
+|Vérification |`./mvnw verify`
+|Démarrage |`./mvnw spring-boot:run`
+|===
+
+== Auteurs
+
+image::https://img.shields.io/badge/Par_email-email?style=social&logo=microsoftoutlook&label={author}[link={email}]
+image::{badges}/Sur_LinkedIn-email?style=social&logo=linkedin&label={author}[link={linkedin},window=_blank]

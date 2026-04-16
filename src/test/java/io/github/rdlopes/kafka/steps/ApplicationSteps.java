@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 
 public class ApplicationSteps {
 
-    private static final Logger log = LoggerFactory.getLogger(ApplicationSteps.class);
+  private static final Logger log = LoggerFactory.getLogger(ApplicationSteps.class);
 
-    @Before
-    public void beforeScenario() {
-        log.info("Starting Cucumber scenario...");
-    }
+  @Before
+  public void beforeScenario() {
+    log.info("Starting Cucumber scenario...");
+  }
 }

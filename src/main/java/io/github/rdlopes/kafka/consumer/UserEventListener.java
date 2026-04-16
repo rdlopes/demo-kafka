@@ -14,26 +14,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(UserEventListener.class);
+  private static final Logger log = LoggerFactory.getLogger(UserEventListener.class);
 
-    private final UserService userService;
+  private final UserService userService;
 
-    public UserEventListener(UserService userService) {
-        this.userService = userService;
-    }
+  public UserEventListener(UserService userService) {
+    this.userService = userService;
+  }
 
-    @RetryableTopic(
-            attempts = "3",
-            backOff = @BackOff(delay = 2000, multiplier = 2.0),
-            topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE)
-    @KafkaListener(topics = "user-events")
-    public void onUserEvent(UserEvent event) {
-        log.info("Received UserEvent: {}", event);
-        userService.processUserEvent(event);
-    }
+  @RetryableTopic(
+    attempts = "3",
+    backOff = @BackOff(delay = 2000, multiplier = 2.0),
+    topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE)
+  @KafkaListener(topics = "user-events")
+  public void onUserEvent(UserEvent event) {
+    log.info("Received UserEvent: {}", event);
+    userService.processUserEvent(event);
+  }
 
-    @DltHandler
-    public void handleDlt(UserEvent event) {
-        log.error("UserEvent sent to DLT: {}", event);
-    }
+  @DltHandler
+  public void handleDlt(UserEvent event) {
+    log.error("UserEvent sent to DLT: {}", event);
+  }
 }

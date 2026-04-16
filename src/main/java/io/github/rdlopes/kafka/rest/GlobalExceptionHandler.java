@@ -12,20 +12,20 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ProblemDetail handleRuntimeException(RuntimeException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        problemDetail.setTitle("Internal Server Error");
-        problemDetail.setType(URI.create("https://api.demo-kafka.com/errors/internal-server-error"));
-        problemDetail.setProperty("timestamp", Instant.now());
-        return problemDetail;
-    }
+  @ExceptionHandler(RuntimeException.class)
+  public ProblemDetail handleRuntimeException(RuntimeException ex) {
+    ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    problemDetail.setTitle("Internal Server Error");
+    problemDetail.setType(URI.create("https://api.demo-kafka.com/errors/internal-server-error"));
+    problemDetail.setProperty("timestamp", Instant.now());
+    return problemDetail;
+  }
 
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleGeneralException(Exception ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        problemDetail.setTitle("Error");
-        problemDetail.setProperty("timestamp", Instant.now());
-        return problemDetail;
-    }
+  @ExceptionHandler(Exception.class)
+  public ProblemDetail handleGeneralException(Exception ex) {
+    ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+    problemDetail.setTitle("Error");
+    problemDetail.setProperty("timestamp", Instant.now());
+    return problemDetail;
+  }
 }

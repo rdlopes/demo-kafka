@@ -7,8 +7,8 @@ import static org.springframework.boot.SpringApplication.run;
 @SpringBootApplication
 public class DemoKafkaApplication {
 
-    static void main(String[] args) {
-        run(DemoKafkaApplication.class, args);
-    }
+  static void main(String[] args) {
+    run(DemoKafkaApplication.class, args);
+  }
 
 }

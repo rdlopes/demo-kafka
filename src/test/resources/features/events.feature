@@ -23,9 +23,9 @@ Feature: Event Processing
 
   Scenario: Many - Bulk processing of events
     When the following user events are sent:
-      | id     | name | email            |
-      | user-3 | Bob  | bob@example.com  |
-      | user-4 | Alice| alice@example.com|
+      | id     | name  | email             |
+      | user-3 | Bob   | bob@example.com   |
+      | user-4 | Alice | alice@example.com |
     And the following account events are sent:
       | id        | userId |
       | account-2 | user-3 |

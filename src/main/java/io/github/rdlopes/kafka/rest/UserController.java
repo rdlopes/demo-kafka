@@ -16,38 +16,39 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
-    @GetMapping
-    public List<UserResponse> getAllUsers() {
-        return userService.findAllUsers()
-                          .stream()
-                          .map(this::toUserResponse)
-                          .toList();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable String id) {
-        return userService.findUserById(id)
-                          .map(this::toUserResponse)
-                          .map(ResponseEntity::ok)
-                          .orElse(ResponseEntity.notFound().build());
-    }
-
-    private UserResponse toUserResponse(UserEntity entity) {
-        return new UserResponse(
-                entity.getId(),
-                entity.getName(),
-                entity.getEmail(),
-                entity.getTimestamp(),
-                entity.getAccounts()
+  @GetMapping
+  public List<UserResponse> getAllUsers() {
+    return userService.findAllUsers()
                       .stream()
-                      .map(account -> new AccountResponse(account.getId(), account.getTimestamp()))
-                      .toList()
-        );
-    }
+                      .map(this::toUserResponse)
+                      .toList();
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<UserResponse> getUserById(@PathVariable String id) {
+    return userService.findUserById(id)
+                      .map(this::toUserResponse)
+                      .map(ResponseEntity::ok)
+                      .orElse(ResponseEntity.notFound()
+                                            .build());
+  }
+
+  private UserResponse toUserResponse(UserEntity entity) {
+    return new UserResponse(
+      entity.getId(),
+      entity.getName(),
+      entity.getEmail(),
+      entity.getTimestamp(),
+      entity.getAccounts()
+            .stream()
+            .map(account -> new AccountResponse(account.getId(), account.getTimestamp()))
+            .toList()
+    );
+  }
 }

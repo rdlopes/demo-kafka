@@ -14,26 +14,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountEventListener.class);
+  private static final Logger log = LoggerFactory.getLogger(AccountEventListener.class);
 
-    private final UserService userService;
+  private final UserService userService;
 
-    public AccountEventListener(UserService userService) {
-        this.userService = userService;
-    }
+  public AccountEventListener(UserService userService) {
+    this.userService = userService;
+  }
 
-    @RetryableTopic(
-            attempts = "3",
-            backOff = @BackOff(delay = 2000, multiplier = 2.0),
-            topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE)
-    @KafkaListener(topics = "account-events")
-    public void onAccountEvent(AccountEvent event) {
-        log.info("Received AccountEvent: {}", event);
-        userService.processAccountEvent(event);
-    }
+  @RetryableTopic(
+    attempts = "3",
+    backOff = @BackOff(delay = 2000, multiplier = 2.0),
+    topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE)
+  @KafkaListener(topics = "account-events")
+  public void onAccountEvent(AccountEvent event) {
+    log.info("Received AccountEvent: {}", event);
+    userService.processAccountEvent(event);
+  }
 
-    @DltHandler
-    public void handleDlt(AccountEvent event) {
-        log.error("AccountEvent sent to DLT: {}", event);
-    }
+  @DltHandler
+  public void handleDlt(AccountEvent event) {
+    log.error("AccountEvent sent to DLT: {}", event);
+  }
 }
