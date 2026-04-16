@@ -8,8 +8,9 @@ import org.springframework.kafka.annotation.BackOff;
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
-import org.springframework.kafka.retrytopic.TopicSuffixingStrategy;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.kafka.retrytopic.TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE;
 
 @Component
 public class UserEventListener {
@@ -23,9 +24,8 @@ public class UserEventListener {
   }
 
   @RetryableTopic(
-    attempts = "3",
     backOff = @BackOff(delay = 2000, multiplier = 2.0),
-    topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE)
+    topicSuffixingStrategy = SUFFIX_WITH_INDEX_VALUE)
   @KafkaListener(topics = "user-events")
   public void onUserEvent(UserEvent event) {
     log.info("Received UserEvent: {}", event);

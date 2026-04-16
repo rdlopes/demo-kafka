@@ -19,10 +19,10 @@
     <avro.version>1.12.1</avro.version>
     <confluent.version>8.2.0</confluent.version>
     <cucumber.version>7.34.3</cucumber.version>
+    <cukedoctor.version>3.9.0</cukedoctor.version>
     <jackson-core.version>3.1.2</jackson-core.version>
     <log4j-core.version>2.25.4</log4j-core.version>
     <springdoc-openapi-starter-webmvc-ui.version>3.0.3</springdoc-openapi-starter-webmvc-ui.version>
-    <cukedoctor-maven-plugin.version>3.9.0</cukedoctor-maven-plugin.version>
   </properties>
 
   <repositories>
@@ -205,7 +205,14 @@
       <plugin>
         <groupId>com.github.cukedoctor</groupId>
         <artifactId>cukedoctor-maven-plugin</artifactId>
-        <version>${cukedoctor-maven-plugin.version}</version>
+        <version>${cukedoctor.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.github.cukedoctor</groupId>
+            <artifactId>cukedoctor-section-layout</artifactId>
+            <version>${cukedoctor.version}</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -215,13 +222,17 @@
           </execution>
         </executions>
         <configuration>
-          <documentTitle>Living Documentation</documentTitle>
+          <documentTitle>Manuel de l'utilisateur et spécifications techniques</documentTitle>
           <outputFileName>index</outputFileName>
           <outputDir>cukedoctor</outputDir>
           <featuresDir>target/cucumber</featuresDir>
           <format>all</format>
           <toc>left</toc>
           <numbered>true</numbered>
+          <introChapterDir>src/test/resources</introChapterDir>
+          <hideScenarioKeyword>true</hideScenarioKeyword>
+          <hideFeaturesSection>true</hideFeaturesSection>
+          <hideTags>true</hideTags>
         </configuration>
       </plugin>
     </plugins>

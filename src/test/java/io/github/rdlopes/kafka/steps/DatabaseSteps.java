@@ -3,6 +3,8 @@ package io.github.rdlopes.kafka.steps;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Etantdonné;
 import io.github.rdlopes.kafka.persistence.AccountRepository;
 import io.github.rdlopes.kafka.persistence.UserRepository;
 
@@ -24,22 +26,26 @@ public class DatabaseSteps {
 
   @Before
   @Given("the database is empty")
+  @Etantdonné("la base de données est vide")
   public void the_database_is_empty() {
     accountRepository.deleteAll();
     userRepository.deleteAll();
   }
 
   @Then("there should be {int} users in the database")
+  @Alors("il devrait y avoir {int} utilisateur dans la base de données")
   public void there_should_be_users_in_the_database(int count) {
     assertThat(userRepository.count()).isEqualTo(count);
   }
 
   @Then("there should be {int} accounts in the database")
+  @Alors("il devrait y avoir {int} compte dans la base de données")
   public void there_should_be_accounts_in_the_database(int count) {
     assertThat(accountRepository.count()).isEqualTo(count);
   }
 
   @Then("the user {string} should eventually exist with name {string} and email {string}")
+  @Alors("l'utilisateur {string} devrait finir par exister avec le nom {string} et l'email {string}")
   public void the_user_should_eventually_exist(String id, String name, String email) {
     await().atMost(5, TimeUnit.SECONDS)
            .untilAsserted(() -> {
@@ -52,6 +58,7 @@ public class DatabaseSteps {
   }
 
   @Then("the account {string} for user {string} should eventually exist")
+  @Alors("le compte {string} pour l'utilisateur {string} devrait finir par exister")
   public void the_account_should_eventually_exist(String id, String userId) {
     await().atMost(5, TimeUnit.SECONDS)
            .untilAsserted(() -> {

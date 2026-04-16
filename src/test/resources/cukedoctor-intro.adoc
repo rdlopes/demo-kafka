@@ -1,0 +1,120 @@
+= *Manuel de l'utilisateur et spécifications techniques*
+
+Ce document constitue la documentation vivante et le manuel technique de l'application *demo-kafka*.
+Il décrit le fonctionnement nominal du système, ses règles de gestion et son architecture technique, tout en servant de preuve d'exécution des tests de conformité.
+
+Ce projet est une application Spring Boot conçue pour recevoir et traiter des événements métiers via le système de messagerie Kafka.
+
+Les événements sont modélisés à l'aide d'Apache Avro pour garantir la compatibilité ascendante et descendante des schémas de données, tout en s'appuyant sur un Confluent Schema Registry pour la gestion centralisée de ces derniers.
+
+== Objets du domaine
+
+Le domaine métier s'articule autour de deux entités principales :
+
+=== Utilisateur (User)
+
+Représente un individu enregistré dans le système.
+Les informations principales incluent :
+
+- *ID* : Identifiant unique de l'utilisateur.
+- *Nom* : Le nom complet de la personne.
+- *Email* : L'adresse de contact électronique associée au compte.
+
+=== Compte (Account)
+
+Représente un compte lié à un utilisateur.
+Les informations principales incluent :
+
+- *ID* : Identifiant unique du compte.
+- *ID Utilisateur* : Référence vers l'utilisateur propriétaire du compte.
+
+== Architecture Technique
+
+L'application suit les principes de l'architecture réactive par événements :
+
+1. *Réception* : Écoute de topics Kafka dédiés via des `@KafkaListener`.
+2. *Désérialisation* : Utilisation de `KafkaAvroDeserializer` couplé à un *Schema Registry*.
+3. *Traitement* : Validation et enrichissement des données par la couche service.
+4. *Persistance* : Stockage des états actuels des entités dans une base de données relationnelle via Spring Data JPA.
+
+== Flux de mise à jour
+
+Les schémas suivants décrivent le flux de données lors de la réception d'événements Kafka.
+
+=== Mise à jour d'un Utilisateur
+
+[plantuml,user-update,png]
+----
+@startuml
+participant "Topic Kafka: user-events" as Kafka
+participant "UserEventListener" as Listener
+participant "UserService" as Service
+database "Base de données" as DB
+
+Kafka -> Listener : UserEvent
+Listener -> Service : processUserEvent(event)
+Service -> DB : save(UserEntity)
+@enduml
+----
+
+=== Mise à jour d'un Compte
+
+[plantuml,account-update,png]
+----
+@startuml
+participant "Topic Kafka: account-events" as Kafka
+participant "AccountEventListener" as Listener
+participant "UserService" as Service
+database "Base de données" as DB
+
+Kafka -> Listener : AccountEvent
+Listener -> Service : processAccountEvent(event)
+Service -> DB : findUserById(userId)
+DB -> Service : UserEntity
+Service -> DB : save(AccountEntity)
+@enduml
+----
+
+== Flux de recherche
+
+Les schémas suivants décrivent comment les informations sont consultées via l'API REST.
+
+=== Recherche de tous les utilisateurs
+
+[plantuml,user-search-all,png]
+----
+@startuml
+participant "Client API" as Client
+participant "UserController" as Controller
+participant "UserService" as Service
+database "Base de données" as DB
+
+Client -> Controller : GET /users
+Controller -> Service : findAllUsers()
+Service -> DB : findAll()
+DB -> Service : List<UserEntity>
+Service -> Controller : List<UserEntity>
+Controller -> Client : List<UserResponse>
+@enduml
+----
+
+=== Recherche d'un utilisateur par identifiant
+
+[plantuml,user-search-by-id,png]
+----
+@startuml
+participant "Client API" as Client
+participant "UserController" as Controller
+participant "UserService" as Service
+database "Base de données" as DB
+
+Client -> Controller : GET /users/{id}
+Controller -> Service : findUserById(id)
+Service -> DB : findById(id)
+DB -> Service : UserEntity
+Service -> Controller : UserEntity
+Controller -> Client : UserResponse
+@enduml
+----
+
+Le code source du projet est disponible sur <<github-repo,son dépôt GitHub>>.

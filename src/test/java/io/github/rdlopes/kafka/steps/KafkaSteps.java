@@ -2,6 +2,7 @@ package io.github.rdlopes.kafka.steps;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.When;
+import io.cucumber.java.fr.Quand;
 import io.github.rdlopes.kafka.avro.AccountEvent;
 import io.github.rdlopes.kafka.avro.UserEvent;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,11 +22,13 @@ public class KafkaSteps {
   }
 
   @When("a user event is sent for id {string} with name {string} and email {string}")
+  @Quand("un événement utilisateur est envoyé pour l'id {string} avec le nom {string} et l'email {string}")
   public void a_user_event_is_sent(String id, String name, String email) {
     sendUserEvent(id, name, email);
   }
 
   @When("the following user events are sent:")
+  @Quand("les événements utilisateur suivants sont envoyés :")
   public void the_following_user_events_are_sent(DataTable dataTable) {
     List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
     for (Map<String, String> row : rows) {
@@ -34,11 +37,13 @@ public class KafkaSteps {
   }
 
   @When("an account event is sent for id {string} for user {string}")
+  @Quand("un événement de compte est envoyé pour l'id {string} pour l'utilisateur {string}")
   public void an_account_event_is_sent(String id, String userId) {
     sendAccountEvent(id, userId);
   }
 
   @When("the following account events are sent:")
+  @Quand("les événements de compte suivants sont envoyés :")
   public void the_following_account_events_are_sent(DataTable dataTable) {
     List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
     for (Map<String, String> row : rows) {
@@ -55,7 +60,8 @@ public class KafkaSteps {
                                .build();
     kafkaTemplate.executeInTransaction(operations -> {
       try {
-        return operations.send(USER_EVENTS_TOPIC, id, event).get();
+        return operations.send(USER_EVENTS_TOPIC, id, event)
+                         .get();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -70,7 +76,8 @@ public class KafkaSteps {
                                      .build();
     kafkaTemplate.executeInTransaction(operations -> {
       try {
-        return operations.send(ACCOUNT_EVENTS_TOPIC, id, event).get();
+        return operations.send(ACCOUNT_EVENTS_TOPIC, id, event)
+                         .get();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }

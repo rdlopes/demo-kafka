@@ -3,6 +3,9 @@ package io.github.rdlopes.kafka.steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Etantdonné;
+import io.cucumber.java.fr.Quand;
 import io.github.rdlopes.kafka.persistence.AccountEntity;
 import io.github.rdlopes.kafka.persistence.AccountRepository;
 import io.github.rdlopes.kafka.persistence.UserEntity;
@@ -30,11 +33,13 @@ public class RestSteps {
   }
 
   @Given("a user exists with id {string}, name {string}, email {string}")
+  @Etantdonné("un utilisateur existe avec l'id {string}, le nom {string} et l'email {string}")
   public void a_user_exists(String id, String name, String email) {
     userRepository.save(new UserEntity(id, name, email, System.currentTimeMillis()));
   }
 
   @Given("an account exists with id {string} for user {string}")
+  @Etantdonné("un compte existe avec l'id {string} pour l'utilisateur {string}")
   public void an_account_exists(String id, String userId) {
     var user = userRepository.findById(userId)
                              .orElseThrow();
@@ -42,6 +47,7 @@ public class RestSteps {
   }
 
   @When("I query the REST endpoint {string}")
+  @Quand("j'interroge le point d'accès REST {string}")
   public void i_query_the_rest_endpoint(String endpoint) {
     latestResponse = restTestClient.get()
                                    .uri(endpoint)
@@ -49,6 +55,7 @@ public class RestSteps {
   }
 
   @Then("the REST endpoint {string} should return an empty list")
+  @Alors("le point d'accès REST {string} devrait retourner une liste vide")
   public void the_rest_endpoint_should_return_an_empty_list(String endpoint) {
     restTestClient.get()
                   .uri(endpoint)
@@ -61,6 +68,8 @@ public class RestSteps {
 
   @Then("the response should contain user {string} with {int} account")
   @Then("the response should contain user {string} with {int} accounts")
+  @Alors("la réponse devrait contenir l'utilisateur {string} avec {int} compte")
+  @Alors("la réponse devrait contenir l'utilisateur {string} avec {int} comptes")
   public void the_response_should_contain_user_with_accounts(String userId, int accountCount) {
     latestResponse.expectStatus()
                   .isOk()
@@ -70,6 +79,7 @@ public class RestSteps {
   }
 
   @Then("the response should be user {string} with {int} accounts")
+  @Alors("la réponse devrait être l'utilisateur {string} avec {int} comptes")
   public void the_response_should_be_user_with_accounts(String userId, int accountCount) {
     latestResponse.expectStatus()
                   .isOk()
