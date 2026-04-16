@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional("transactionManager")
 public class UserService {
 
   private static final Logger log = LoggerFactory.getLogger(UserService.class);
@@ -53,12 +53,12 @@ public class UserService {
     log.info("Saved AccountEntity: {}", entity.getId());
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(value = "transactionManager", readOnly = true)
   public List<UserEntity> findAllUsers() {
     return userRepository.findAll();
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(value = "transactionManager", readOnly = true)
   public Optional<UserEntity> findUserById(String id) {
     return userRepository.findById(id);
   }

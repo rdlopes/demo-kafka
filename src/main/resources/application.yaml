@@ -6,12 +6,15 @@ spring:
     consumer:
       group-id: demo-group
       auto-offset-reset: earliest
+      isolation-level: read_committed
+      enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       properties:
         schema.registry.url: http://localhost:8081
         specific.avro.reader: true
     producer:
+      transaction-id-prefix: ${spring.application.name}-tx-
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       properties:

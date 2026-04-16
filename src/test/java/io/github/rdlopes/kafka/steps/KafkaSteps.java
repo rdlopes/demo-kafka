@@ -53,7 +53,13 @@ public class KafkaSteps {
                                .setEmail(email)
                                .setTimestamp(System.currentTimeMillis())
                                .build();
-    kafkaTemplate.send(USER_EVENTS_TOPIC, id, event);
+    kafkaTemplate.executeInTransaction(operations -> {
+      try {
+        return operations.send(USER_EVENTS_TOPIC, id, event).get();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 
   private void sendAccountEvent(String id, String userId) {
@@ -62,6 +68,12 @@ public class KafkaSteps {
                                      .setUserId(userId)
                                      .setTimestamp(System.currentTimeMillis())
                                      .build();
-    kafkaTemplate.send(ACCOUNT_EVENTS_TOPIC, id, event);
+    kafkaTemplate.executeInTransaction(operations -> {
+      try {
+        return operations.send(ACCOUNT_EVENTS_TOPIC, id, event).get();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 }
