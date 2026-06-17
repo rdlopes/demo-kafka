@@ -17,7 +17,7 @@
   <properties>
     <java.version>25</java.version>
     <avro.version>1.12.1</avro.version>
-    <confluent.version>8.2.0</confluent.version>
+    <confluent.version>8.3.0</confluent.version>
     <cucumber.version>7.34.3</cucumber.version>
     <cukedoctor.version>3.9.0</cukedoctor.version>
     <jackson-core.version>3.1.2</jackson-core.version>
